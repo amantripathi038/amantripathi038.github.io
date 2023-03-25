@@ -67,3 +67,39 @@ const typed = new Typed('.multiple-text', {
     backDelay: 1000,
     loop: true
 })
+
+
+
+function sendEmail(event) {
+    event.preventDefault(); // prevent the form from submitting
+    emailjs.init("Ivwyhp95qsjWWpSn5");
+
+    // get form values
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const contact = document.getElementById("mobile").value;
+    const subject = document.getElementById("subject").value;
+    const message = document.getElementById("message").value;
+
+    if (name === "" || email === "" || subject === "" || message === "" || contact === "") {
+        alert("Please fill all the required fields!");
+        return;
+    }
+
+    // send email using EmailJS
+    emailjs.send("service_jw2ma5e", "template_exvc36b", {
+        from_name: name,
+        from_email: email,
+        to_email: "your_email_address@gmail.com",
+        subject: subject,
+        message: message,
+        contact: contact,
+    }).then((response) => {
+        console.log("SUCCESS!", response.status, response.text);
+        alert("Message sent successfully!");
+        //document.getElementById("contact-form").reset(); // reset form
+    }, (error) => {
+        console.log("FAILED...", error);
+        alert("Message failed to send.");
+    });
+}
